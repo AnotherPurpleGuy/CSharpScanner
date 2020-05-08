@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Scanner;
+using ScannerUtil;
 
 namespace ScannerTests
 {
@@ -13,6 +13,7 @@ namespace ScannerTests
         [Test]
         public void Test1()
         {
+            Scanner scanner = new Scanner("test");
             Assert.Pass();
         }
     }
