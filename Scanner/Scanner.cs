@@ -56,7 +56,8 @@ namespace ScannerUtil
         /// <returns></returns>
         public bool hasNextLine()
         {
-            return true;
+            string _tmp = _next_match.Groups["line"].Value;
+            return (_tmp.Length != 0);
         }
 
     }
