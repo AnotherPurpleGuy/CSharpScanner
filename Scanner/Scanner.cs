@@ -52,5 +52,16 @@ namespace ScannerUtil
             return groups["line"].Value;
 
         }
+
+        /// <summary>
+        /// Method checks to see if there is another line to be returned after
+        /// the current one. Note: this method dose not shift the possition of
+        /// the current line, only the <code>nextLine()</code> can do that.
+        /// </summary>
+        /// <returns></returns>
+        public bool hasNextLine()
+        {
+            return true;
+        }
     }
 }
