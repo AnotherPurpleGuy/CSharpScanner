@@ -38,19 +38,8 @@ namespace ScannerUtil
         public string nextLine()
         {
 
-            Regex rx = new Regex(NEWLINEPATTEN,
-                RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            _current_match = rx.Match(_working_string);
-
-            GroupCollection groups = _current_match.Groups;
-
-            _working_string = _working_string.Substring(groups[0].Length);
-
-            Console.WriteLine(groups["line"].Value);
-
-            return groups["line"].Value;
-
+            updateLineData();
+            return _current_match.Groups["line"].Value;
         }
 
         /// <summary>
@@ -62,6 +51,21 @@ namespace ScannerUtil
         public bool hasNextLine()
         {
             return true;
+        }
+
+        private void updateLineData()
+        {
+
+            Regex rx = new Regex(NEWLINEPATTEN,
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            _current_match = rx.Match(_working_string);
+
+            GroupCollection groups = _current_match.Groups;
+
+            _working_string = _working_string.Substring(groups[0].Length);
+
+
         }
     }
 }
