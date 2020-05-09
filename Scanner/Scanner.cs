@@ -6,9 +6,6 @@ namespace ScannerUtil
     public class Scanner
     {
         // Fields
-
-        // Copy of the original string handed to the GivenString Constructor
-        private string _working_string;
         
         // Regex for identifying a single line
         private string NEWLINEPATTEN = @"(?<line>[^\t\n\v\r]*)(\t|\n|\v|\r)*";
@@ -28,8 +25,6 @@ namespace ScannerUtil
         /// <param name="inputString">String given to the constructor</param>
         public Scanner(string inputString)
         {
-            _working_string = inputString;
-
             Regex rx = new Regex(NEWLINEPATTEN,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
             
