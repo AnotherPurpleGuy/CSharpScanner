@@ -29,6 +29,13 @@ namespace ScannerUtil
         public Scanner(string inputString)
         {
             _working_string = inputString;
+
+            Regex rx = new Regex(NEWLINEPATTEN,
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            
+            _current_match = rx.Match(inputString);
+            _next_match = _current_match.NextMatch();
+
         }
 
         // Methods
@@ -40,9 +47,10 @@ namespace ScannerUtil
         /// <returns></returns>
         public string nextLine()
         {
-
-            updateLineData();
-            return _current_match.Groups["line"].Value;
+            string tmp = _current_match.Groups["line"].Value;
+            _current_match = _next_match;
+            _next_match = _current_match.NextMatch();
+            return tmp;
         }
 
         /// <summary>
@@ -56,24 +64,5 @@ namespace ScannerUtil
             return true;
         }
 
-        private void updateLineData()
-        {
-
-            Regex rx = new Regex(NEWLINEPATTEN,
-                RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            if(_current_match == null)
-            {
-                _current_match = rx.Match(_working_string);
-                _working_string = _working_string.Substring(_current_match.Groups[0].Length);
-                _next_match = rx.Match(_working_string);
-                _working_string = _working_string.Substring(_next_match.Groups[0].Length);
-            } else 
-            {
-                _current_match = _next_match;
-                _next_match = rx.Match(_working_string);
-                _working_string = _working_string.Substring(_next_match.Groups[0].Length);
-            }
-        }
     }
 }
