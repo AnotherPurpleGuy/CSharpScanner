@@ -15,6 +15,9 @@ namespace ScannerUtil
 
         // Continan the matches that will be returned by a next* method call
         private Match _current_match;
+
+        // Contains the match for the next item to be returned
+        private Match _next_match;
         
         // Constructors
 
@@ -59,13 +62,18 @@ namespace ScannerUtil
             Regex rx = new Regex(NEWLINEPATTEN,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            _current_match = rx.Match(_working_string);
-
-            GroupCollection groups = _current_match.Groups;
-
-            _working_string = _working_string.Substring(groups[0].Length);
-
-
+            if(_current_match == null)
+            {
+                _current_match = rx.Match(_working_string);
+                _working_string = _working_string.Substring(_current_match.Groups[0].Length);
+                _next_match = rx.Match(_working_string);
+                _working_string = _working_string.Substring(_next_match.Groups[0].Length);
+            } else 
+            {
+                _current_match = _next_match;
+                _next_match = rx.Match(_working_string);
+                _working_string = _working_string.Substring(_next_match.Groups[0].Length);
+            }
         }
     }
 }
