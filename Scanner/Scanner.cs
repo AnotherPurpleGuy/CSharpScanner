@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
+using ScannerUtil.Exceptions;
+
 namespace ScannerUtil
 {
     public class Scanner
@@ -25,6 +27,9 @@ namespace ScannerUtil
         /// <param name="inputString">String given to the constructor</param>
         public Scanner(string inputString)
         {
+
+            if (inputString.Equals("")) throw new PassedEmptyStringException("Empty string was handed to constructor");
+
             Regex rx = new Regex(NEWLINEPATTEN,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
             

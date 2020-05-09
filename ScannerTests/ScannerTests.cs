@@ -1,5 +1,7 @@
 using NUnit.Framework;
+
 using ScannerUtil;
+using ScannerUtil.Exceptions;
 
 namespace ScannerTests
 {
@@ -15,6 +17,20 @@ namespace ScannerTests
         {
             Scanner scanner = new Scanner("test");
             Assert.Pass();
+        }
+
+        [Test]
+        public void GivenString_Constructor_Exceptions()
+        {
+            try
+            {
+                Scanner scanner = new Scanner("");
+            } catch (PassedEmptyStringException e)
+            {
+                Assert.Pass();
+            }
+
+            Assert.Fail();
         }
 
         [Test]
