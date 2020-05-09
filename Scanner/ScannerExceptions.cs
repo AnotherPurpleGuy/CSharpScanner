@@ -14,9 +14,9 @@ namespace ScannerUtil.Exceptions
         }
     }
 
-    public class PassedEmptyStringException : Exception
+    public class InvalidArgumentException : Exception
     {
-        public PassedEmptyStringException(string message)
+        public InvalidArgumentException(string message)
             :base(message)
         {
         }

@@ -28,7 +28,7 @@ namespace ScannerUtil
         public Scanner(string inputString)
         {
 
-            if (inputString.Equals("")) throw new PassedEmptyStringException("Empty string was handed to constructor");
+            if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
 
             Regex rx = new Regex(NEWLINEPATTEN,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);

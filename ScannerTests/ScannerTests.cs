@@ -25,12 +25,13 @@ namespace ScannerTests
             try
             {
                 Scanner scanner = new Scanner("");
-            } catch (PassedEmptyStringException e)
+                Assert.Fail();
+            } catch (InvalidArgumentException e)
             {
+                Assert.That(e.Message, Is.EqualTo("Empty string was handed to constructor"));
                 Assert.Pass();
             }
 
-            Assert.Fail();
         }
 
         [Test]
