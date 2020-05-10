@@ -9,6 +9,8 @@ namespace ScannerUtil
     {
 
         // Fields
+
+        private Patten _current_active_patten;
         
         // Continan the matches that will be returned by a next* method call
         private Match _current_match;
@@ -18,7 +20,7 @@ namespace ScannerUtil
 
         private bool _no_matches_left;
 
-        private string _copy_of_input_string;
+        private string _copy_of_construct_string;
         
         // Constructors
 
@@ -42,8 +44,8 @@ namespace ScannerUtil
         public Scanner(string inputString)
         {
             if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
-            
             setMatchs(inputString,Patten.NEW_LINE_PATTEN);
+            _copy_of_construct_string = inputString;
         }
 
         // Methods
@@ -55,6 +57,7 @@ namespace ScannerUtil
             
             _current_match = rx.Match(inputString);
             _next_match = _current_match.NextMatch();
+            _current_active_patten = patten;
         }
 
         /// <summary>
@@ -91,7 +94,17 @@ namespace ScannerUtil
 
         public int nextInt()
         {
-            return 14;
+            if(_current_active_patten.Equals(Patten.INTGER_PATTEN))
+            {
+                int tmp = Convert.ToInt32(_current_match.Groups["integer"].Value);
+                _current_match = _next_match;
+                _next_match = _current_match.NextMatch();
+                return tmp;
+            } else
+            {
+                setMatchs(_copy_of_construct_string,Patten.INTGER_PATTEN);
+                return nextInt();
+            }
         }
     }
 
@@ -99,7 +112,7 @@ namespace ScannerUtil
     {
         public static readonly Patten NEW_LINE_PATTEN = new Patten(@"(?<line>[^\t\n\v\r$]+)");
 
-        public static readonly Patten INTGER_PATTEN = new Patten(@"[0-9]+");
+        public static readonly Patten INTGER_PATTEN = new Patten(@"(?<integer>-?[0-9]+)");
 
         private string _patten;
 
@@ -109,5 +122,11 @@ namespace ScannerUtil
         {
             return _patten;
         }
+
+        public bool Equals(Patten other)
+        {
+            return other !=null && _patten == other.ToString();
+        }
+
     } 
 }
