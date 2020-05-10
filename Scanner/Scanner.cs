@@ -17,6 +17,8 @@ namespace ScannerUtil
 
         // Contains the match for the next item to be returned
         private Match _next_match;
+
+        private bool _no_matches_left;
         
         // Constructors
 

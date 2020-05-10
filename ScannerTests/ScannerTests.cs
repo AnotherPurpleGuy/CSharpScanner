@@ -37,12 +37,29 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextLine()
         {
-            Scanner scanner = new Scanner("this is \n a test to check \t that the correct\v values are been returned\r all values");
+            Scanner scanner = new Scanner("this is \n\n a test to check \t\t that the correct\v values are been returned\r all values");
             Assert.AreEqual("this is ", scanner.nextLine());
             Assert.AreEqual(" a test to check ", scanner.nextLine());
             Assert.AreEqual(" that the correct", scanner.nextLine());
             Assert.AreEqual(" values are been returned", scanner.nextLine());
             Assert.AreEqual(" all values", scanner.nextLine());
+        }
+
+        [Test]
+        public void GivenString_NextLine_Exceptions()
+        {
+            Scanner scanner = new Scanner("exception");
+            string _tmp = scanner.nextLine();
+
+            try
+            {
+                _tmp = scanner.nextLine();
+                Assert.Fail();
+            } catch (NoMoreDataException e)
+            {
+                Assert.That(e.Message, Is.EqualTo("There is not more lines left to return"));
+                Assert.Pass();
+            }
         }
 
         [Test]
