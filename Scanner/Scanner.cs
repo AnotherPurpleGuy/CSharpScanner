@@ -10,7 +10,7 @@ namespace ScannerUtil
         // Fields
         
         // Regex for identifying a single line
-        private string NEWLINEPATTEN = @"(?<line>[^\t\n\v\r]*)(\t|\n|\v|\r)*";
+        private string NEWLINEPATTEN = @"(?<line>[^\t\n\v\r$]+)";
 
         // Continan the matches that will be returned by a next* method call
         private Match _current_match;
@@ -63,8 +63,7 @@ namespace ScannerUtil
         /// <returns></returns>
         public bool hasNextLine()
         {
-            string _tmp = _next_match.Groups["line"].Value;
-            return (_tmp.Length != 0);
+            return _next_match.Success;
         }
 
     }
