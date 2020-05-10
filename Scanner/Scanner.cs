@@ -5,12 +5,13 @@ using ScannerUtil.Exceptions;
 
 namespace ScannerUtil
 {
-    public class Scanner
+    public sealed class Scanner
     {
+
         // Fields
         
         // Regex for identifying a single line
-        private string NEWLINEPATTEN = @"(?<line>[^\t\n\v\r$]+)";
+        public static readonly string NEW_LINE_PATTEN = @"(?<line>[^\t\n\v\r$]+)";
 
         // Continan the matches that will be returned by a next* method call
         private Match _current_match;
@@ -23,16 +24,27 @@ namespace ScannerUtil
         // Constructors
 
         /// <summary>
-        /// Constructs a new <code>Scanner</code> that takes a given string that
-        /// can then have further operations performend on it.
+        /// This constructor takes a single string as a paramitor, by default
+        /// the string will the c# regex enging split it by lines. In this
+        /// implmentation a new line is represened by a \t, \n, \v or \r. You
+        /// can acsess each line in tern by using the 
+        /// <code>
+        /// nextline()
+        /// </code> method.
         /// </summary>
-        /// <param name="inputString">String given to the constructor</param>
+        /// <param name="inputString">This is the string you would like
+        /// processed
+        /// </param>
+        /// <exception
+        /// cref="ScannerUtil.Exceptions.InvalidArgumentException">This
+        /// exception will be thrown if an empty string is passed to the
+        /// constructor
+        /// </exception>
         public Scanner(string inputString)
         {
-
             if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
 
-            Regex rx = new Regex(NEWLINEPATTEN,
+            Regex rx = new Regex(Scanner.NEW_LINE_PATTEN,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
             
             _current_match = rx.Match(inputString);
