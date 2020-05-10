@@ -57,7 +57,7 @@ namespace ScannerTests
                 Assert.Fail();
             } catch (NoMoreDataException e)
             {
-                Assert.That(e.Message, Is.EqualTo("There is not more lines left to return"));
+                Assert.That(e.Message, Is.EqualTo("There is no more lines left to return"));
                 Assert.Pass();
             }
         }

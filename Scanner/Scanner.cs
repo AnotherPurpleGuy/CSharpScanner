@@ -49,10 +49,17 @@ namespace ScannerUtil
         /// <returns></returns>
         public string nextLine()
         {
-            string tmp = _current_match.Groups["line"].Value;
-            _current_match = _next_match;
-            _next_match = _current_match.NextMatch();
-            return tmp;
+            if(_current_match.Success == true)
+            {
+                string tmp = _current_match.Groups["line"].Value;
+                _current_match = _next_match;
+                _next_match = _current_match.NextMatch();
+                return tmp;
+            } else
+            {
+                throw new NoMoreDataException("There is no more lines left to return");
+            }
+
         }
 
         /// <summary>
