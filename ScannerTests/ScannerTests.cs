@@ -81,7 +81,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextInt()
         {
-            Scanner scanner = new Scanner("14,39  92 \n 502 :;\t 2147483647, -15");
+            Scanner scanner = new Scanner("14,39 this is dead text 92 \n 502 :;\t 2147483647, -15");
             Assert.That(scanner.nextInt(), Is.EqualTo(14));
             Assert.That(scanner.nextInt(), Is.EqualTo(39));
             Assert.That(scanner.nextInt(), Is.EqualTo(92));
@@ -100,6 +100,15 @@ namespace ScannerTests
         public void GivenString_HasNextInt()
         {
             Assert.Fail();
+        }
+
+        [Test]
+        public void Given_String_mulitNext()
+        {
+            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls");
+            Assert.That(scanner.nextLine(), Is.EqualTo("this, a number 1 test of multiple "));
+            Assert.That(scanner.nextInt(), Is.EqualTo(666));
+            Assert.That(scanner.nextLine(), Is.EqualTo(" different next calls"));
         }
 
     }
