@@ -76,5 +76,30 @@ namespace ScannerTests
             _tmp = scanner.nextLine();
             Assert.IsFalse(scanner.hasNextLine());
         }
+
+
+        [Test]
+        public void GivenString_NextInt()
+        {
+            Scanner scanner = new Scanner("14,39  92 \n 502 :;\t 2147483647, -15");
+            Assert.That(scanner.nextInt(), Is.EqualTo(39));
+            Assert.That(scanner.nextInt(), Is.EqualTo(92));
+            Assert.That(scanner.nextInt(), Is.EqualTo(502));
+            Assert.That(scanner.nextInt(), Is.EqualTo(2147483647));
+            Assert.That(scanner.nextInt(), Is.EqualTo(-15));
+        }
+
+        [Test]
+        public void GivenString_NextInt_Exceptions()
+        {
+            Assert.Fail();
+        }
+
+        [Test]
+        public void GivenString_HasNextInt()
+        {
+            Assert.Fail();
+        }
+
     }
 }

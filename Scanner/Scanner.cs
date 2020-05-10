@@ -10,9 +10,6 @@ namespace ScannerUtil
 
         // Fields
         
-        // Regex for identifying a single line
-        public static readonly string NEW_LINE_PATTEN = @"(?<line>[^\t\n\v\r$]+)";
-
         // Continan the matches that will be returned by a next* method call
         private Match _current_match;
 
@@ -20,6 +17,8 @@ namespace ScannerUtil
         private Match _next_match;
 
         private bool _no_matches_left;
+
+        private string _copy_of_input_string;
         
         // Constructors
 
@@ -43,16 +42,20 @@ namespace ScannerUtil
         public Scanner(string inputString)
         {
             if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
+            
+            setMatchs(inputString,Patten.NEW_LINE_PATTEN);
+        }
 
-            Regex rx = new Regex(Scanner.NEW_LINE_PATTEN,
+        // Methods
+
+        private void setMatchs(string inputString, Patten patten)
+        {
+            Regex rx = new Regex(patten.ToString(),
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
             
             _current_match = rx.Match(inputString);
             _next_match = _current_match.NextMatch();
-
         }
-
-        // Methods
 
         /// <summary>
         /// This method will return the next line from the input made in the
@@ -85,5 +88,26 @@ namespace ScannerUtil
             return _next_match.Success;
         }
 
+
+        public int nextInt()
+        {
+            return 14;
+        }
     }
+
+    public sealed class Patten
+    {
+        public static readonly Patten NEW_LINE_PATTEN = new Patten(@"(?<line>[^\t\n\v\r$]+)");
+
+        public static readonly Patten INTGER_PATTEN = new Patten(@"[0-9]+");
+
+        private string _patten;
+
+        Patten(string patten) => _patten = patten; 
+
+        public override string ToString()
+        {
+            return _patten;
+        }
+    } 
 }
