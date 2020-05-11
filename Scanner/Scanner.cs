@@ -18,9 +18,11 @@ namespace ScannerUtil
         // Contains the match for the next item to be returned
         private Match _next_match;
 
-        private bool _no_matches_left;
+        private bool _string_fully_processed = false;
 
         private string _copy_of_construct_string;
+
+        private string _working_string;
         
         // Constructors
 
@@ -44,8 +46,9 @@ namespace ScannerUtil
         public Scanner(string inputString)
         {
             if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
-            setMatchs(inputString,Patten.NEW_LINE_PATTEN);
+            _working_string = inputString;
             _copy_of_construct_string = inputString;
+            setMatchs(inputString,Patten.NEW_LINE_PATTEN);
         }
 
         // Methods
@@ -56,8 +59,49 @@ namespace ScannerUtil
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
             
             _current_match = rx.Match(inputString);
+
+            if(!_current_match.Success) throw new NoMatchFoundException();
+
             _next_match = _current_match.NextMatch();
             _current_active_patten = patten;
+        }
+
+        private string getMatch(string name)
+        {
+            try
+            {
+                _working_string = _working_string.Substring(_current_match.Index + _current_match.Length);
+            } catch (ArgumentOutOfRangeException)
+            {
+                _string_fully_processed = true;
+            }
+            string tmp = _current_match.Groups[name].Value;
+            _current_match = _next_match;
+            _next_match = _current_match.NextMatch();
+            return tmp;
+        }
+
+        private void switchMatchs(Patten patten)
+        {
+            setMatchs(_working_string,patten);
+        }
+
+        private string next(Patten patten, string name)
+        {
+            if(_current_active_patten.Equals(patten))
+            {
+                if(_current_match.Success == true)
+                {
+                    return getMatch(name);
+                } else
+                {
+                    throw new NoMoreDataException("There is no more lines left to return");
+                }
+            } else 
+            {
+                switchMatchs(patten);
+                return next(patten,name);
+            }
         }
 
         /// <summary>
@@ -67,17 +111,30 @@ namespace ScannerUtil
         /// <returns></returns>
         public string nextLine()
         {
-            if(_current_match.Success == true)
+            return next(Patten.NEW_LINE_PATTEN,"line");
+        }
+
+        public int nextInt()
+        {
+            try
             {
-                string tmp = _current_match.Groups["line"].Value;
-                _current_match = _next_match;
-                _next_match = _current_match.NextMatch();
-                return tmp;
+                return Convert.ToInt32(next(Patten.INTGER_PATTEN,"integer"));
+            } catch (NoMatchFoundException)
+            {
+                throw new NoMatchFoundException("There was no integer found in the remaining string");
+            }
+        }
+
+        private bool hasNext(Patten patten)
+        {
+            if(_current_active_patten.Equals(patten))
+            {
+                return _next_match.Success;
             } else
             {
-                throw new NoMoreDataException("There is no more lines left to return");
+                return new Regex(patten.ToString(),
+                    RegexOptions.Compiled | RegexOptions.IgnoreCase).Match(_working_string).Success;
             }
-
         }
 
         /// <summary>
@@ -88,24 +145,14 @@ namespace ScannerUtil
         /// <returns></returns>
         public bool hasNextLine()
         {
-            return _next_match.Success;
+            return hasNext(Patten.NEW_LINE_PATTEN);
         }
 
-
-        public int nextInt()
+        public bool hasNextInt()
         {
-            if(_current_active_patten.Equals(Patten.INTGER_PATTEN))
-            {
-                int tmp = Convert.ToInt32(_current_match.Groups["integer"].Value);
-                _current_match = _next_match;
-                _next_match = _current_match.NextMatch();
-                return tmp;
-            } else
-            {
-                setMatchs(_copy_of_construct_string,Patten.INTGER_PATTEN);
-                return nextInt();
-            }
+            return hasNext(Patten.INTGER_PATTEN);
         }
+
     }
 
     public sealed class Patten

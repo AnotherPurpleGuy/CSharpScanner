@@ -1,5 +1,6 @@
 using NUnit.Framework;
 
+using System;
 using ScannerUtil;
 using ScannerUtil.Exceptions;
 
@@ -93,22 +94,53 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextInt_Exceptions()
         {
-            Assert.Fail();
+            Scanner scanner = new Scanner("53");
+            int _tmp = scanner.nextInt();
+
+            try
+            {
+                _tmp = scanner.nextInt();
+                Assert.Fail();
+            } catch (NoMoreDataException e)
+            {
+                Assert.That(e.Message, Is.EqualTo("There is no more lines left to return"));
+            }
+
+            scanner = new Scanner("test");
+
+            try
+            {
+                _tmp = scanner.nextInt();
+                Assert.Fail("This call was suppose to throw and exception");
+            } catch (NoMatchFoundException e)
+            {
+                Assert.That(e.Message, Is.EqualTo("There was no integer found in the remaining string"));
+            }
         }
 
         [Test]
         public void GivenString_HasNextInt()
         {
-            Assert.Fail();
+            int _tmp;
+
+            Scanner scanner = new Scanner("15,35,-37");
+            Assert.True(scanner.hasNextInt());
+
+            _tmp = scanner.nextInt();
+            Assert.True(scanner.hasNextInt());
+
+            _tmp = scanner.nextInt();
+            Assert.False(scanner.hasNextInt());
         }
 
         [Test]
         public void Given_String_mulitNext()
         {
-            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls");
+            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls 79");
             Assert.That(scanner.nextLine(), Is.EqualTo("this, a number 1 test of multiple "));
             Assert.That(scanner.nextInt(), Is.EqualTo(666));
-            Assert.That(scanner.nextLine(), Is.EqualTo(" different next calls"));
+            Assert.That(scanner.nextLine(), Is.EqualTo(" remainding line "));
+            Assert.That(scanner.nextInt(), Is.EqualTo(79));
         }
 
     }
