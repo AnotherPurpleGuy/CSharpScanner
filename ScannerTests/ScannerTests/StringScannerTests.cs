@@ -1,6 +1,5 @@
 using NUnit.Framework;
 
-using System;
 using Scanners;
 using Scanners.Exceptions;
 
@@ -16,7 +15,7 @@ namespace ScannerTests
         [Test]
         public void GivenStringConstructor()
         {
-            Scanner scanner = new Scanner("test");
+            Scanner scanner = new StringScanner("test");
             Assert.Pass();
         }
 
@@ -25,7 +24,7 @@ namespace ScannerTests
         {
             try
             {
-                Scanner scanner = new Scanner("");
+                Scanner scanner = new StringScanner("");
                 Assert.Fail();
             } catch (InvalidArgumentException e)
             {
@@ -37,7 +36,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextLine()
         {
-            Scanner scanner = new Scanner("this is \n\n a test to check \t\t that the correct\v values are been returned\r all values");
+            Scanner scanner = new StringScanner("this is \n\n a test to check \t\t that the correct\v values are been returned\r all values");
             Assert.AreEqual("this is ", scanner.nextLine());
             Assert.AreEqual(" a test to check ", scanner.nextLine());
             Assert.AreEqual(" that the correct", scanner.nextLine());
@@ -48,7 +47,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextLine_Exceptions()
         {
-            Scanner scanner = new Scanner("exception");
+            Scanner scanner = new StringScanner("exception");
             string _tmp = scanner.nextLine();
 
             try
@@ -67,7 +66,7 @@ namespace ScannerTests
         {
             string _tmp;
 
-            Scanner scanner = new Scanner("next line\n look ahead\n test");
+            Scanner scanner = new StringScanner("next line\n look ahead\n test");
             Assert.IsTrue(scanner.hasNextLine());
 
             _tmp = scanner.nextLine();
@@ -81,7 +80,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextInt()
         {
-            Scanner scanner = new Scanner("14,39 this is dead text 92 \n 502 :;\t 2147483647, -15");
+            Scanner scanner = new StringScanner("14,39 this is dead text 92 \n 502 :;\t 2147483647, -15");
             Assert.That(scanner.nextInt(), Is.EqualTo(14));
             Assert.That(scanner.nextInt(), Is.EqualTo(39));
             Assert.That(scanner.nextInt(), Is.EqualTo(92));
@@ -93,7 +92,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextInt_Exceptions()
         {
-            Scanner scanner = new Scanner("53");
+            Scanner scanner = new StringScanner("53");
             int _tmp = scanner.nextInt();
 
             try
@@ -105,7 +104,7 @@ namespace ScannerTests
                 Assert.That(e.Message, Is.EqualTo("There is no more lines left to return"));
             }
 
-            scanner = new Scanner("test");
+            scanner = new StringScanner("test");
 
             try
             {
@@ -122,7 +121,7 @@ namespace ScannerTests
         {
             int _tmp;
 
-            Scanner scanner = new Scanner("15,35,-37");
+            Scanner scanner = new StringScanner("15,35,-37");
             Assert.True(scanner.hasNextInt());
 
             _tmp = scanner.nextInt();
@@ -135,7 +134,7 @@ namespace ScannerTests
         [Test]
         public void Given_String_NextDouble()
         {
-            Scanner scanner = new Scanner("this is a 153.923 ,15.1 25.  15 spacing ; 0.61 \n -25.43");
+            Scanner scanner = new StringScanner("this is a 153.923 ,15.1 25.  15 spacing ; 0.61 \n -25.43");
             Assert.That(scanner.nextDouble(), Is.EqualTo(153.923));   
             Assert.That(scanner.nextDouble(), Is.EqualTo(15.1));   
             Assert.That(scanner.nextDouble(), Is.EqualTo(0.61));   
@@ -147,7 +146,7 @@ namespace ScannerTests
         {
             double _tmp;
 
-            Scanner scanner = new Scanner("14.550 93.14 7509.13");
+            Scanner scanner = new StringScanner("14.550 93.14 7509.13");
             Assert.True(scanner.hasNextDouble());
 
             _tmp = scanner.nextDouble();
@@ -160,7 +159,7 @@ namespace ScannerTests
         [Test]
         public void GivenString_NextDouble_Exceptions()
         {
-            Scanner scanner = new Scanner("15.95");
+            Scanner scanner = new StringScanner("15.95");
             double _tmp = scanner.nextDouble();
 
             try
@@ -172,7 +171,7 @@ namespace ScannerTests
                 Assert.That(e.Message, Is.EqualTo("There is no more lines left to return"));
             }
 
-            scanner = new Scanner("test");
+            scanner = new StringScanner("test");
 
             try
             {
@@ -187,7 +186,7 @@ namespace ScannerTests
         [Test]
         public void Given_String_mulitNext()
         {
-            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls 79 \t addition of a double 93.61");
+            Scanner scanner = new StringScanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls 79 \t addition of a double 93.61");
             Assert.That(scanner.nextLine(), Is.EqualTo("this, a number 1 test of multiple "));
             Assert.That(scanner.nextInt(), Is.EqualTo(666));
             Assert.That(scanner.nextLine(), Is.EqualTo(" remainding line "));

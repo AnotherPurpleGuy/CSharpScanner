@@ -5,7 +5,7 @@ using Scanners.Exceptions;
 
 namespace Scanners
 {
-    public sealed class Scanner
+    public class Scanner
     {
 
         // Fields
@@ -20,40 +20,13 @@ namespace Scanners
 
         private bool _string_fully_processed = false;
 
-        private string _copy_of_construct_string;
-
-        private string _working_string;
+        protected string _working_string;
         
         // Constructors
 
-        /// <summary>
-        /// This constructor takes a single string as a paramitor, by default
-        /// the string will the c# regex enging split it by lines. In this
-        /// implmentation a new line is represened by a \t, \n, \v or \r. You
-        /// can acsess each line in tern by using the 
-        /// <code>
-        /// nextline()
-        /// </code> method.
-        /// </summary>
-        /// <param name="inputString">This is the string you would like
-        /// processed
-        /// </param>
-        /// <exception
-        /// cref="Scanners.Exceptions.InvalidArgumentException">This
-        /// exception will be thrown if an empty string is passed to the
-        /// constructor
-        /// </exception>
-        public Scanner(string inputString)
-        {
-            if (inputString.Equals("")) throw new InvalidArgumentException("Empty string was handed to constructor");
-            _working_string = inputString;
-            _copy_of_construct_string = inputString;
-            setMatchs(inputString,Patten.NEW_LINE_PATTEN);
-        }
-
         // Methods
 
-        private void setMatchs(string inputString, Patten patten)
+        protected void setMatchs(string inputString, Patten patten)
         {
             Regex rx = new Regex(patten.ToString(),
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
