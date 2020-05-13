@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PurpleGuy.Utilities.Scanner</PackageId>
+    <Author>Benjamin Wass</Author>
+    <Description>Java style scanner for strings, console and files</Description>
+    <Version>0.0.1-alpha</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>Java Scanner, Scanner, String Processing</PackageTags>
+    <RepositorUrl>https://github.com/AnotherPurpleGuy/CSharpScanner</RepositorUrl>
   </PropertyGroup>
 
 </Project>
