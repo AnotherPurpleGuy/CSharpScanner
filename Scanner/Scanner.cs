@@ -125,6 +125,17 @@ namespace ScannerUtil
             }
         }
 
+        public double nextDouble()
+        {
+            try
+            {
+                return Convert.ToDouble(next(Patten.DOUBLE_PATTEN,"double"));
+            } catch (NoMatchFoundException)
+            {
+                throw new NoMatchFoundException("There was no double found in the remaining string");
+            }
+        }
+
         private bool hasNext(Patten patten)
         {
             if(_current_active_patten.Equals(patten))
@@ -153,6 +164,11 @@ namespace ScannerUtil
             return hasNext(Patten.INTGER_PATTEN);
         }
 
+        public bool hasNextDouble()
+        {
+            return hasNext(Patten.DOUBLE_PATTEN);
+        }
+
     }
 
     public sealed class Patten
@@ -160,6 +176,8 @@ namespace ScannerUtil
         public static readonly Patten NEW_LINE_PATTEN = new Patten(@"(?<line>[^\t\n\v\r$]+)");
 
         public static readonly Patten INTGER_PATTEN = new Patten(@"(?<integer>-?[0-9]+)");
+
+        public static readonly Patten DOUBLE_PATTEN = new Patten(@"(?<double>-?[0-9]+.[0-9]+)");
 
         private string _patten;
 
