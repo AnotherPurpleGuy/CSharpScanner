@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>PurpleGuy.Utilities.Scanner</PackageId>
-    <Author>Benjamin Wass</Author>
+    <Authors>Benjamin Wass</Authors>
+    <Title>Scanner Class</Title>
     <Description>Java style scanner for strings, console and files</Description>
+    <Summary>Utility tool for scanning strings, files and console inputs for the
+    specific type of values. Inspired by the Java scanner class</Summary>
     <Version>0.0.1-alpha</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Java Scanner, Scanner, String Processing</PackageTags>
-    <RepositorUrl>https://github.com/AnotherPurpleGuy/CSharpScanner</RepositorUrl>
+    <RepositoryUrl>https://github.com/AnotherPurpleGuy/CSharpScanner</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
