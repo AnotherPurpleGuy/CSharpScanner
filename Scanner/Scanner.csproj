@@ -5,9 +5,8 @@
     <PackageId>PurpleGuy.Utilities.Scanner</PackageId>
     <Authors>Benjamin Wass</Authors>
     <Title>Scanner Class</Title>
-    <Description>Java style scanner for strings, console and files</Description>
-    <Summary>Utility tool for scanning strings, files and console inputs for the
-    specific type of values. Inspired by the Java scanner class</Summary>
+    <Description>Utility tool for scanning strings, files and console inputs for the
+    specific type of values. Inspired by the Java scanner class</Description>
     <Version>0.0.1-alpha</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Java Scanner, Scanner, String Processing</PackageTags>
