@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
 using System;
-using ScannerUtil;
-using ScannerUtil.Exceptions;
+using Scanners;
+using Scanners.Exceptions;
 
 namespace ScannerTests
 {

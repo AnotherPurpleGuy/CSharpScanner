@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-using ScannerUtil.Exceptions;
+using Scanners.Exceptions;
 
-namespace ScannerUtil
+namespace Scanners
 {
     public sealed class Scanner
     {
@@ -39,7 +39,7 @@ namespace ScannerUtil
         /// processed
         /// </param>
         /// <exception
-        /// cref="ScannerUtil.Exceptions.InvalidArgumentException">This
+        /// cref="Scanners.Exceptions.InvalidArgumentException">This
         /// exception will be thrown if an empty string is passed to the
         /// constructor
         /// </exception>
