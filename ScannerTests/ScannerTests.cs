@@ -32,7 +32,6 @@ namespace ScannerTests
                 Assert.That(e.Message, Is.EqualTo("Empty string was handed to constructor"));
                 Assert.Pass();
             }
-
         }
 
         [Test]
@@ -134,14 +133,66 @@ namespace ScannerTests
         }
 
         [Test]
+        public void Given_String_NextDouble()
+        {
+            Scanner scanner = new Scanner("this is a 153.923 ,15.1 25.  15 spacing ; 0.61 \n -25.43");
+            Assert.That(scanner.nextDouble(), Is.EqualTo(153.923));   
+            Assert.That(scanner.nextDouble(), Is.EqualTo(15.1));   
+            Assert.That(scanner.nextDouble(), Is.EqualTo(0.61));   
+            Assert.That(scanner.nextDouble(), Is.EqualTo(-25.43));   
+        }
+
+        [Test]
+        public void Given_String_HasNextDouble()
+        {
+            double _tmp;
+
+            Scanner scanner = new Scanner("14.550 93.14 7509.13");
+            Assert.True(scanner.hasNextDouble());
+
+            _tmp = scanner.nextDouble();
+            Assert.True(scanner.hasNextDouble());
+
+            _tmp = scanner.nextDouble();
+            Assert.False(scanner.hasNextDouble());
+        }
+
+        [Test]
+        public void GivenString_NextDouble_Exceptions()
+        {
+            Scanner scanner = new Scanner("15.95");
+            double _tmp = scanner.nextDouble();
+
+            try
+            {
+                _tmp = scanner.nextDouble();
+                Assert.Fail();
+            } catch (NoMoreDataException e)
+            {
+                Assert.That(e.Message, Is.EqualTo("There is no more lines left to return"));
+            }
+
+            scanner = new Scanner("test");
+
+            try
+            {
+                _tmp = scanner.nextDouble();
+                Assert.Fail("This call was suppose to throw and exception");
+            } catch (NoMatchFoundException e)
+            {
+                Assert.That(e.Message, Is.EqualTo("There was no double found in the remaining string"));
+            }
+        }
+
+        [Test]
         public void Given_String_mulitNext()
         {
-            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls 79");
+            Scanner scanner = new Scanner("this, a number 1 test of multiple \n 666 remainding line \n different next calls 79 \t addition of a double 93.61");
             Assert.That(scanner.nextLine(), Is.EqualTo("this, a number 1 test of multiple "));
             Assert.That(scanner.nextInt(), Is.EqualTo(666));
             Assert.That(scanner.nextLine(), Is.EqualTo(" remainding line "));
             Assert.That(scanner.nextInt(), Is.EqualTo(79));
+            Assert.That(scanner.nextDouble(), Is.EqualTo(93.61));
         }
-
     }
 }
